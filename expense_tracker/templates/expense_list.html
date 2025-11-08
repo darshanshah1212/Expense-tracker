@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        font-weight: 700;
+        color: #343a40;
+      }
+
+      table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      thead {
+        background-color: #343a40;
+        color: white;
+      }
+
+      tbody tr:hover {
+        background-color: #f1f3f5;
+        transition: background-color 0.3s ease;
+      }
+      
+      th, td {
+        vertical-align: middle;
+      }
+
+      .table td, .table th {
+        padding: 12px;
+      }
+
+      /* Make search box look good */
+      .search-bar input {
+        border-radius: 25px;
+        padding-left: 15px;
+        border: 1px solid #ced4da;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      .search-bar button {
+        border-radius: 25px;
+        padding: 6px 16px;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Expense Tracker</h1>
+        <hr>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <a href="{% url 'add_expenses' %}" class="btn btn-primary me-2">+ Add Expense</a>
+                <a href="{% url 'categories_list' %}" class="btn btn-secondary me-2">Category</a>
+            </div>
+
+            
+            <form method="get" class="d-flex search-bar" role="search">
+                <input class="form-control me-2" type="text" name="q" placeholder="Search expenses..." value="{{ query }}">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Receipt</th>
+                  <th scope="col">Edit</th>
+                  <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for expens in expenses %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ expens.title }}</td>
+                    <td>{{ expens.category }}</td>
+                    <td>₹{{ expens.amount }}</td>
+                    <td>{{ expens.date }}</td>
+                    <td>{{ expens.description }}</td>
+                    <td>
+                        {% if expens.receipt %}
+                        <a href="{{ expens.receipt.url }}" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                        {% else %}
+                        <span class="text-muted">No receipt</span>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'edit_expenses' expens.id %}">Edit Expense</a></td>
+                    <td><a href="{% url 'delete_expenses' expens.id %}">Delete Expense</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'export_expenses_csv' %}" class="btn btn-success mb-3">
+              Download Expenses (CSV)
+        </a>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

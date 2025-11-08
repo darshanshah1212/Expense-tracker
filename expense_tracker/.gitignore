@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pickle
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+.Python
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Environment files
+.env
+*.env
+instance/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Packaging / Distribution
+dist/
+build/
+*.egg-info/
+
+# Node (if any frontend tools)
+node_modules/
